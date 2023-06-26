@@ -1,0 +1,3 @@
+DEFAULT_DIR=D:/InteractivePlots/DataFolder
+FILE_1=D:/InteractivePlots/DataFolder/kinFiles/14/kin-elbrest-abd-add-06-04-23-07-17-44.txt
+FILE_2=D:/InteractivePlots/DataFolder/mpFiles/elbrest-abd-add-06-04-2023-15-17-34/analysis/elbrest-abd-add-06-04-2023-15-17-34.csv
