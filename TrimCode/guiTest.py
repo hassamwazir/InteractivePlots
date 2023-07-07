@@ -128,6 +128,11 @@ def AlignData(default_dir, plot=False):
         kin_df_new.to_csv(kin_df_new_path, sep=',', index=False)
         mp_df_new.to_csv(mp_df_new_path, sep=',', index=False)
 
+        # save both dataframes in one file
+        df = pd.concat([kin_df_new, mp_df_new], axis=1)
+        df_path = aligned_dir + "/aligned.csv"
+        df.to_csv(df_path, sep=',', index=False)        
+
     else:
         print('No trimmed folder found. Please run the "Trim Data" function first.')
 
@@ -135,14 +140,15 @@ def AlignData(default_dir, plot=False):
 
 def select_path(input_field, is_folder, file=""):
     dialog_func = filedialog.askdirectory if is_folder else filedialog.askopenfilename
-    selected_path = dialog_func(initialdir="", title="Select a folder") if is_folder else dialog_func(title="Select a file", filetypes=(("Numpy files", "*.npy"),("Text files", "*.txt"), ("Text files", "*.csv"), ("all files", "*.*")))
-    
+    selected_path = dialog_func(initialdir="", title="Select a folder") if is_folder else dialog_func(title="Select a file", filetypes=(("all files", "*.*")))
+    global default_dir
     if selected_path:
         input_field.delete(0, tk.END)
         input_field.insert(0, selected_path)
         # update the global variable
-        global default_dir
-        default_dir = selected_path
+        if is_folder:
+            default_dir = selected_path
+            print(f'the default path is: {default_dir}')
 
 def update_input_field(input_field, value):
     input_field.delete(0, tk.END)  # Clear existing text in the input field
@@ -208,7 +214,7 @@ def get_default_params():
     file_1=''
     file_2=''
 
-    with open('DefaultDataDirectory.txt', 'r') as f:
+    with open(os.path.dirname((os.path.abspath(__file__))) + '\\DefaultDataDirectory.txt', 'r') as f:
         for line in f:
             match = re.match(r'(DEFAULT_DIR|FILE_1|FILE_2)=(.*)', line)
             if match:

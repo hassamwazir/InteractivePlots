@@ -66,28 +66,52 @@ def ModifyMatKinFiles(matKinFile):
 
             swap_columns(os.path.join(matKinFile + newFilename))
 
+# function to check a text file and see if it has a particular header. If it doesn't, add the header
+def check_header(file_path, header):
+    with open(file_path, 'r') as file:
+        first_line = file.readline()
+        if first_line != header:
+            file.close()
+            with open(file_path, 'r+') as file:
+                content = file.read()
+                file.seek(0, 0)
+                file.write(header.rstrip('\r\n') + '\n' + content)
+                file.close()
+
 # print sirectories in the userPath
 # print(os.listdir(userPath))
 # iterate over directories in the userPath
+cwd = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 userPath = os.path.join(cwd, "TestCleanData")
+print(f'userPath: {userPath}')
 
-for directory in os.listdir(userPath):
-    # print(f'directory: {userPath + directory}')
-    dir_path = os.path.join(userPath, directory)
-    # iterate over files in the userPath + directory
-    for exercise in os.listdir(dir_path):
-        # print(f'filename: {userPath + directory + "/" + exercise}')
-        exercise_path = os.path.join(userPath , directory , str(exercise), "analysis\\")
-        ModifyMatKinFiles(exercise_path)
-        # for filename in os.listdir(exercise_path):
-        #     if filename.endswith(".txt") and filename.startswith("mat-kin"):
-        #         # print(f'filename: {userPath + directory + "/" + exercise + "/analysis/" + filename}')
-        #         file_path = os.path.join(exercise_path, filename)
-                
+# for directory in os.listdir(userPath):
+#     # print(f'directory: {userPath + directory}')
+#     dir_path = os.path.join(userPath, directory)
+#     # iterate over files in the userPath + directory
+#     for exercise in os.listdir(dir_path):
+#         # print(f'filename: {userPath + directory + "/" + exercise}')
+#         exercise_path = os.path.join(userPath , directory , str(exercise), "analysis\\")
+#         # ModifyMatKinFiles(exercise_path)
+#         for filename in os.listdir(exercise_path):
+#             if filename.endswith(".txt") and filename.startswith("kin"):
+#                 # print(f'filename: {userPath + directory + "/" + exercise + "/analysis/" + filename}')
+#                 file_path = os.path.join(exercise_path, filename)
+#                 header = ["elev", "shp", "time", "elb", "rie"]
+#                 check_header(file_path, header)
 
-    
-    break
-        
+#             break
+#         break
+#     break
+
+file_path = os.path.abspath(__file__)
+directory = os.path.dirname(file_path)
+
+print("File path:", file_path)
+print("Directory:", directory)    
+
+# go up one directory
+parent_directory = os.path.dirname(directory)
 
 # result_df = swap_columns('data.csv')
 # print(result_df)

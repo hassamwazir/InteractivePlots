@@ -147,6 +147,9 @@ for folder in os.listdir(mp_source_folder):
         # get the path of the file
         file_path = folder_path + "/" + file
         print(f'file_path: {file_path}')
+    
+
+
 
 
 # peaks_troughs = GetPeaksAndTroughs(data, mp_csv_path, source_folder = mp_source_folder, prox_threshold=0)
